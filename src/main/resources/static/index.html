@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>index.html</title>
+</head>
+<body>
+<a href="add.html"><h3>增加</h3></a>
+<form id="queryForm">
+  <input name="pageNum" type="hidden" value="1"/>
+  编号:<input id="id" name="id"/><br>
+  商品:<select id="pro" name="productid">
+  <option value="-1">请选择</option>
+</select><br>
+  销售员:<select id="user" name="userid">
+  <option value="-1">请选择</option>
+</select><br>
+  单价:<input id="minprice" name="minprice"/>-<input id="maxprice" name="maxprice"/><br>
+  数量:<input id="minquantity" name="minquantity"/>-<input id="maxquantity" name="maxquantity"/><br>
+  总价:<input id="mintotalprice" name="mintotalprice"/>-<input id="maxtotalprice" name="maxtotalprice"/><br>
+  创建时间:<input name="beginTime" type="date"/>-<input name="endTime" type="date"/><br>
+  <input id="queryBtn" type="button" value="查询"/>
+</form>
+<br>
+<table border="1" cellpadding="0" cellspacing="0" id="saleTab">
+  <tr style="background-color: lightskyblue">
+    <th>编号</th>
+    <th>商品</th>
+    <th>销售员</th>
+    <th>单价</th>
+    <th>数量</th>
+    <th>总价</th>
+    <th>时间</th>
+    <th>操作</th>
+  </tr>
+</table>
+<div id="fyInfo"></div>
+</body>
+<script src="webjars/jquery/3.5.0/jquery.js"></script>
+<script>
+  function del(id) {
+    $.ajax({
+      url: "del",
+      type: "delete",
+      data: "id=" + id,
+      success: function (data) {
+        console.log(data)
+        if (data == 1) {
+          alert("删除成功")
+          getByPage(1)
+        } else {
+          alert("删除失败")
+        }
+      }
+    })
+  }
+
+  function getByPage(pageNum) {
+
+    $("#queryForm [name=pageNum]").val(pageNum)
+
+    $.get("getByPage", $("#queryForm").serialize(), function (data) {
+      // console.log(data)
+
+      $("#saleTab tr:not(:first)").remove()
+
+      $.each(data.list, function (i, item) {
+
+        $("#saleTab").append(`<tr><td>${item.id}</td><td>${item.name}</td><td>${item.uname}</td>
+<td>${item.price}</td><td>${item.quantity}</td><td>${item.totalPrice}</td><td>${item.date}</td>
+<td><a href="update.html?id=${item.id}">修改</a>&nbsp;<a href="javascript:del(${item.id})">删除</a></td> </tr>`)
+      })
+
+      //隔行变色
+      $("#saleTab tr:not(:first):even").css("backgroundColor", "darkseagreen")
+
+
+      $("#fyInfo").html(`<a href="javascript:getByPage(1)">首页</a><a href="javascript:getByPage(${data.prePage})">上一页</a>
+<a href="javascript:getByPage(${data.nextPage})">下一页</a><a href="javascript:getByPage(${data.pages})">末页</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;第${data.pageNum}页,共${data.pages}页,共${data.total}条记录`)
+    })
+  }
+
+  $(function () {
+
+    $.get("getAllPro", function (data) {
+      // console.log(data)
+      $.each(data, function (i, item) {
+        $("#pro").append(`<option value='${item.id}'>${item.name}</option>`)
+      })
+    })
+
+    $.get("getAllUser", function (data) {
+      // console.log(data)
+      $.each(data, function (i, item) {
+        $("#user").append(`<option value='${item.id}'>${item.uname}</option>`)
+      })
+    })
+
+    getByPage(1)
+
+    $("#queryBtn").click(function () {
+      getByPage(1)
+    })
+  })
+</script>
+</html>

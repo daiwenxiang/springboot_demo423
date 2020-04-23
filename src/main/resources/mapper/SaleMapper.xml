@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.lz.springboot_crud_415.mapper.SaleMapper">
+  <select id="getByCondition" resultType="map">
+    select s.*, p.*, u.*
+    from sale s
+    left join product p on s.productid = p.id
+    left join user u on s.userId = u.id
+    <where>
+      <if test="id != null and id != ''">
+        s.id = #{id}
+      </if>
+      <if test="productid != null and productid != '' and productid != -1">
+        and s.productid = #{productid}
+      </if>
+      <if test="userId != null and userId != -1">
+        and s.userId = #{userId}
+      </if>
+      <if test="minprice != null and minprice != ''">
+        and s.price >= #{minprice}
+      </if>
+      <if test="maxprice != null and maxprice != ''">
+        and <![CDATA[s.price <= #{maxprice}]]>
+      </if>
+      <if test="minquantity != null and minquantity != ''">
+        and s.quantity >= #{minquantity}
+      </if>
+      <if test="maxquantity != null and maxquantity != ''">
+        and <![CDATA[s.quantity <= #{maxquantity}]]>
+      </if>
+      <if test="mintotalprice != null and mintotalprice != ''">
+        and s.totalprice >= #{mintotalprice}
+      </if>
+      <if test="maxtotalprice != null and maxtotalprice != ''">
+        and <![CDATA[s.totalprice <= #{maxtotalprice}]]>
+      </if>
+      <if test="beginTime != null and beginTime != ''">
+        and s.saledate >= #{beginTime}
+      </if>
+      <if test="endTime != null and endTime != ''">
+        and <![CDATA[s.saledate <= #{endTime}]]>
+      </if>
+    </where>
+    order by s.id
+  </select>
+</mapper>

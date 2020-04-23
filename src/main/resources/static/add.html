@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>add.html</title>
+</head>
+<body>
+<form id="addForm">
+  <h3>新增</h3>
+  商品:<select name="productId">
+  <option value="-1">请选择</option>
+</select><br>
+  销售员:<select name="userId">
+  <option value="-1">请选择</option>
+</select><br>
+  单价:<input name="price"/><br>
+  数量:<input name="quantity"/><br>
+  <input id="addBtn" type="button" value="提交"/>
+  <a href="index.html">返回</a>
+</form>
+</body>
+<script src="webjars/jquery/3.5.0/jquery.js"></script>
+<script>
+  $(function () {
+    $.get("getAllPro", function (data) {
+      console.log(data)
+      $.each(data, function (i, item) {
+        $("[name=productId]").append(`<option value="${item.id}">${item.name}</option>`)
+      })
+    })
+
+    $("#addBtn").click(function () {
+      //验证
+      var pid = $("[name=productId]").val()
+      if (pid == "-1") {
+        alert("请选择商品")
+
+      } else {
+        $.get("add", $("#addForm").serialize(), function (data) {
+          //根据结果进行操作  -2:库存不足  1:成功  其他:失败
+          if (data == -2) {
+            alert("库存不足")
+          } else if (data == 1) {
+            alert("添加成功")
+          } else {
+            alert("添加失败")
+          }
+        })
+      }
+    })
+
+    $.get("getAllUser", function (data) {
+      console.log(data)
+      $.each(data, function (i, item) {
+        $("[name=userId]").append(`<option value="${item.id}">${item.uname}</option>`)
+      })
+    })
+  })
+</script>
+</html>

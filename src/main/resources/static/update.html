@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>add.html</title>
+</head>
+<body>
+<form id="updateForm">
+  <h3>修改</h3>
+  编号: <input id="id" name="id" readonly/><br>
+  商品: <select id="pro" name="productId">
+  <option value="-1">请选择</option>
+</select><br>
+  销售员: <select id="user" name="userId">
+  <option value="-1">请选择</option>
+</select><br>
+  单价: <input id="price" name="price"/><br>
+  数量: <input id="quantity" name="quantity"/><br>
+  总价: <input id="totalPrice" name="totalPrice"/><br>
+  <input id="updateBtn" type="button" value="提交"/>
+  <a href="index.html">返回首页</a>
+</form>
+</body>
+<script src="webjars/jquery/3.5.0/jquery.js"></script>
+<script>
+  $(function () {
+    var searchStr = location.search.substring(1)
+    var reg = new RegExp("(^|&)id=([^&]*)(&|$)")
+    var re = searchStr.match(reg)
+    // console.log(re)
+    var id = re[2]
+    //根据id做ajax查询对应的销售记录
+    //还是需要查询商品列表 销售列表
+    $.get("getAllPro", function (data) {
+      console.log(data)
+      $.each(data, function (i, item) {
+        $("#pro").append(`<option value='${item.id}'>${item.name}</option>`)
+      })
+    })
+
+    $.get("getAllUser", function (data) {
+      console.log(data)
+      $.each(data, function (i, item) {
+        $("#user").append(`<option value='${item.id}'>${item.uname}</option>`)
+      })
+    })
+
+    $.get("getSales", function (data) {
+      console.log(data)
+      $.each(data, function (i, item) {
+        if (item.id == id) {
+          $("#id").val(id)
+          $("#price").val(item.price)
+          $("#quantity").val(item.quantity)
+          $("#totalPrice").val(item.price * item.quantity)
+          $("#pro").val(item.productId)
+          $("#user").val(item.userId)
+        }
+      })
+    })
+
+    $("#updateBtn").click(function () {
+      $.ajax({
+        url: "update",
+        type: "put",
+        data: $("#updateForm").serialize(),
+        success: function (data) {
+          console.log(data)
+          alert("修改成功")
+          window.location.href = "/index.html"
+        }
+      })
+    })
+  })
+</script>
+</html>
