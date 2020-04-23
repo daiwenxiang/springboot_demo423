@@ -5,7 +5,7 @@
     select s.*, p.*, u.*
     from sale s
     left join product p on s.productid = p.id
-    left join user u on s.userId = u.id
+    left join user u on s.userid = u.id
     <where>
       <if test="id != null and id != ''">
         s.id = #{id}
@@ -13,8 +13,8 @@
       <if test="productid != null and productid != '' and productid != -1">
         and s.productid = #{productid}
       </if>
-      <if test="userId != null and userId != -1">
-        and s.userId = #{userId}
+      <if test="userid != null and userid != -1">
+        and s.userid = #{userid}
       </if>
       <if test="minprice != null and minprice != ''">
         and s.price >= #{minprice}
