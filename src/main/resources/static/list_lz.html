@@ -267,7 +267,6 @@
     },
     methods: {
       sale(pn) {
-
         $("#queryForm [name=pageNum]").val(pn)
 
         $.get("http://localhost:8080/getByPage", $("#queryForm").serialize(), (data) => {
