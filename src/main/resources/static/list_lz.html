@@ -12,6 +12,7 @@
       width: 45%;
       display: inline
     }
+
     a {
       cursor: pointer
     }
@@ -21,16 +22,13 @@
 <div id="app">
   <div id="main">
     <form class="form-horizontal" id="queryForm">
-
       <input name="pageNum" type="hidden" value="1"/>
-
       <div class="form-group">
         <label class="col-sm-2 control-label" for="id">编号：</label>
         <div class="col-sm-3">
           <input class="form-control" id="id" name="id" type="text">
         </div>
       </div>
-
       <div class="form-group">
         <label class="col-sm-2 control-label" for="productid">商品：</label>
         <div class="col-sm-3">
@@ -40,7 +38,6 @@
           </select>
         </div>
       </div>
-
       <div class="form-group">
         <label class="col-sm-2 control-label" for="userid">销售员：</label>
         <div class="col-sm-3">
@@ -50,7 +47,6 @@
           </select>
         </div>
       </div>
-
       <div class="form-group">
         <label class="col-sm-2 control-label" for="minprice">单价：</label>
         <div class="col-sm-3">
@@ -58,7 +54,6 @@
           <input class="form-control" id="maxprice" name="maxprice" placeholder="最大值" type="text">
         </div>
       </div>
-
       <div class="form-group">
         <label class="col-sm-2 control-label" for="minquantity">数量：</label>
         <div class="col-sm-3">
@@ -66,7 +61,6 @@
           <input class="form-control" id="maxquantity" name="maxquantity" placeholder="最大值" type="text">
         </div>
       </div>
-
       <div class="form-group">
         <label class="col-sm-2 control-label" for="beginTime">时间：</label>
         <div class="col-sm-3">
@@ -74,7 +68,6 @@
           <input class="form-control" id="endTime" name="endTime" placeholder="最大值" type="text">
         </div>
       </div>
-
       <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
           <button @click="sale(1)" class="btn btn-primary" type="button">搜索</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -82,9 +75,7 @@
           <button @click="show('#addmodal')" class="btn btn-success" type="button">新增</button>
         </div>
       </div>
-
     </form>
-
     <table border="1" class="table table-striped table-bordered table-hover" id="saleTable" style="text-align: center">
       <tr style="font-weight: bold;background: darkgrey">
         <td>编号</td>
@@ -110,7 +101,6 @@
         </td>
       </tr>
     </table>
-
     <nav aria-label="Page navigation">
       <ul class="pager">
         <li><a @click="sale(1)">首页</a></li>
@@ -144,7 +134,6 @@
         <div class="modal-body">
           <!--表单内容-->
           <form class="form-horizontal" id="addForm">
-
             <div class="form-group">
               <label class="col-sm-2 control-label">商品：</label>
               <div class="col-sm-10">
@@ -177,7 +166,6 @@
                 <input class="form-control" id="addquantity" name="quantity" placeholder="数量" type="text">
               </div>
             </div>
-
           </form>
         </div>
         <div class="modal-footer">
@@ -187,7 +175,6 @@
       </div>
     </div>
   </div>
-
   <div class="modal fade" id="update_modal" role="dialog" tabindex="-1">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -214,7 +201,6 @@
                 </select>
               </div>
             </div>
-
             <div class="form-group">
               <label class="col-sm-2 control-label" for="updateuserid">销售员：</label>
               <div class="col-sm-10">
@@ -224,7 +210,6 @@
                 </select>
               </div>
             </div>
-
             <div class="form-group">
               <label class="col-sm-2 control-label">单价：</label>
               <div class="col-sm-10">
@@ -237,7 +222,6 @@
                 <input :value="getSale.quantity" class="form-control" name="quantity" placeholder="数量" type="text">
               </div>
             </div>
-
           </form>
         </div>
         <div class="modal-footer">
